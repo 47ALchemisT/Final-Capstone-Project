@@ -119,12 +119,15 @@
                         <ul class="space-y-2" style="margin-bottom: 6px;">
                             <li>
                                 <Link 
-                                    href="/palakasan" 
+                                    href="/palakasan/details" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg transition-all"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/palakasan', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/palakasan'}"
+                                    :class="{
+                                    'bg-blue-800 text-white': currentRoute.startsWith('/palakasan'), 
+                                    'text-gray-700 hover:bg-blue-100 hover:text-blue-600': !currentRoute.startsWith('/palakasan')
+                                    }"
                                 >
-                                <i class="fa-solid fa-hand-fist"></i>                                
-                                <span class="ms-3">Palakasan</span>
+                                    <i class="fa-solid fa-hand-fist"></i>                                
+                                    <span class="ms-3">Palakasan</span>
                                 </Link>
                                 <Link 
                                     href="/account" 

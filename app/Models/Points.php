@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sport extends Model
+class Points extends Model
 {
     use HasFactory;
 
-    protected $table = 'sports';
+    protected $table = 'points';
 
     protected $fillable = [
         'name',
-        'description',
+        'pointdescription',
+        'rankdescription',
     ];
-
-    public function assignedSports()
-    {
-        return $this->hasMany(AssignedSports::class, 'sport_id'); 
-    }
 }

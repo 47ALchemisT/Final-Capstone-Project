@@ -9,12 +9,12 @@ class College extends Model
 {
     use HasFactory;
 
-    protected $table = 'colleges';
+    protected $fillable = ['name', 'shortName', 'teamName', 'description'];
 
-    protected $fillable = [
-        'name',
-        'shortName',
-        'teamName',
-        'description'
-    ];
+    // A college can have many assigned teams
+    public function assignedTeams()
+    {
+        return $this->hasMany(AssignedTeams::class, 'college_id'); // Foreign key 'college_id'
+    }
 }
+

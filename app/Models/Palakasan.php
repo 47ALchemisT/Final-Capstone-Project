@@ -9,23 +9,24 @@ class Palakasan extends Model
 {
     use HasFactory;
 
-    protected $table = 'palakasan';
+    protected $table = 'palakasans';
 
     protected $fillable = [
         'year',
         'theme',
         'tagline',
         'description',
-        'startDate',
-        'endDate',
-        'status'
+        'start_date',
+        'end_date',
+        'status',
+    ];
+    protected $casts = [
+        'year' => 'integer', // Cast year to integer
     ];
 
-    protected $casts = [
-        'year' => 'integer',
-        'startDate' => 'date',
-        'endDate' => 'date',
-        'status' => 'boolean',
-    ];
+    public function assignedTeams()
+    {
+        return $this->hasMany(AssignedTeams::class, 'palakasan_id');
+    }
 
 }

@@ -76,12 +76,12 @@
                     <div class="border rounded-lg border-gray-300 shadow">
                         <table class="min-w-full">
                             <thead>
-                                <tr class="bg-gray-100 text-blue-700">                                    
-                                    <th class="py-2 px-4 text-left border-b bg-gray-100 rounded-t-lg">ID</th>
-                                    <th class="py-2 px-4 text-left border-b bg-gray-100 ">Name</th>
-                                    <th class="py-2 px-4 text-left border-b bg-gray-100">Email</th>
-                                    <th class="py-2 px-4 text-left border-b bg-gray-100 ">Contact Number</th>                                    
-                                    <th class="py-2 px-4 text-left border-b bg-gray-100 rounded-t-lg">Actions</th>
+                                <tr class=" text-blue-700">                                    
+                                    <th class="py-2 px-4 text-left border-b rounded-t-lg">ID</th>
+                                    <th class="py-2 px-4 text-left border-b ">Name</th>
+                                    <th class="py-2 px-4 text-left border-b">Email</th>
+                                    <th class="py-2 px-4 text-left border-b  ">Contact Number</th>                                    
+                                    <th class="py-2 px-4 text-left border-b  rounded-t-lg">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

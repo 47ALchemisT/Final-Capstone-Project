@@ -19,6 +19,5 @@ createInertiaApp({
     },
     progress: {
         color: '#93c5fd', // Change this to your desired color
-        delay: 50, // Optional delay for showing the progress bar
     },
 });
