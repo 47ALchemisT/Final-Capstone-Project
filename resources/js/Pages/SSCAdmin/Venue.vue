@@ -48,13 +48,9 @@
                         <!--Buttons-->
                         <div class="flex items-center space-x-2.5">
                             <button @click="openModal(false)" class=" bg-blue-800 text-white py-2 px-3 rounded-lg text-sm font-medium shadow hover:bg-blue-800/90 transition-colors">
-                                <i class="fa-solid fa-plus mr-1"></i>    
+                                <i class="fa-solid fa-square-plus mr-1"></i>    
                                 Venue                             
                             </button>
-                            <button class="tooltip-btn bg-white text-gray-800 p-2 text-sm rounded-lg ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors" data-tooltip="Logs">
-                                <i class="fa-solid fa-envelopes-bulk"></i>
-                            </button>
-
                         </div>
                     </div>
                 </div>

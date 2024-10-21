@@ -29,7 +29,8 @@
 
       <!-- Button to open the modal for adding new team -->
       <button @click="openTeamsModal" class="bg-blue-700 text-sm text-white px-4 py-2 rounded-lg">
-        Add New Team
+        <i class="fa-solid fa-square-plus mr-1"></i>
+        Team
       </button>
     </div>
 
@@ -43,17 +44,21 @@
         <div class="p-4">
           <div class="flex justify-between items-center mb-2">
             <h3 class="text-lg font-semibold text-gray-800 truncate">{{ team.assigned_team_name }}</h3>
-            <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-              {{ team.college.shortName }}
+            <span class="text-xs font-medium text-gray-500">
+              <p class="text-xs text-gray-600">{{ formatDate(team.created_at) }}</p>
+
             </span>
           </div>
-          <p class="text-sm text-gray-600">{{ formatDate(team.created_at) }}</p>
+          <p class="text-sm text-gray-600">{{ team.college.name }}</p>
         </div>
       </div>
     </div>
 
     <!-- No teams found message -->
-    <p v-else class="text-gray-600 text-center mt-8">No teams found.</p>
+    <div v-else class=" text-center rounded-lg border-2 border-blue-500 border-dashed p-10 bg-blue-100 text-blue-700">
+      <h1 class="text-xl font-semibold">You need to first create a Team for this Palakasan.</h1> 
+      <p class="text-sm">In selecting a sport, just click the <span class="font-bold">Team</span> button at the top right of the screen to start.</p>
+    </div>
 
     <!-- Modal for adding new team -->
     <div v-if="isTeamsModalOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
@@ -91,12 +96,27 @@
           </div>
 
           <!-- Hidden Palakasan ID input -->
-          <input type="text" v-model="form.palakasan_id" />
+          <input type="hidden" v-model="form.palakasan_id" />
 
           <!-- Modal Buttons -->
           <div class="flex justify-end">
-            <button type="button" @click="closeTeamsModal" class="mr-2 px-4 py-2 border rounded-lg">Cancel</button>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Add Team</button>
+            <button type="button" @click="closeTeamsModal" class="mr-2 px-4 text-sm py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">Cancel</button>
+            <button
+                  type="submit"
+                  :disabled="form.processing"
+                  class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition relative"
+            >
+                  <span v-if="!form.processing">
+                      Confirm
+                  </span>
+                  <span v-else>
+                      <svg class="animate-spin h-4 w-4 mr-3 border-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.969 7.969 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                  </span>
+              </button>  
           </div>
         </form>
       </div>
@@ -113,7 +133,7 @@ import Palakasan from '@/Layout/PalakasanLayout.vue';
 const props = defineProps({
   colleges: Array,
   assignedTeams: Array,
-  latestPalakasan: Object, // Add the latest Palakasan to props
+  latestPalakasan: Object,
   errors: Object,
 });
 
@@ -121,40 +141,52 @@ const props = defineProps({
 const searchQuery = ref('');
 const isTeamsModalOpen = ref(false);
 
-// Initialize the form with useForm, including palakasan_id
+// Initialize the form with useForm, including palakasan_id with a safe default
 const form = useForm({
   assigned_team_name: '',
   college_id: '',
-  palakasan_id: props.latestPalakasan.id, // Automatically set the latest Palakasan ID
+  palakasan_id: props.latestPalakasan?.id || null, // Use optional chaining and provide a default
 });
 
 // Open Teams modal
 const openTeamsModal = () => {
+  if (!props.latestPalakasan) {
+    console.error('No active Palakasan event found');
+    // You might want to show an error message to the user here
+    return;
+  }
   isTeamsModalOpen.value = true;
 };
 
 // Close Teams modal and reset form
 const closeTeamsModal = () => {
   isTeamsModalOpen.value = false;
-  form.reset(); // Reset the form state
+  form.reset();
 };
 
 // Submit form for adding a new team
 const submitTeam = () => {
+  if (!form.palakasan_id) {
+    console.error('No active Palakasan event');
+    // You might want to show an error message to the user here
+    return;
+  }
   form.post('/palakasan/team', {
     onSuccess: () => {
-      closeTeamsModal(); // Close modal upon successful submission
+      closeTeamsModal();
     },
-    onError: () => {
-      console.error('Form submission error'); // Handle errors
+    onError: (errors) => {
+      console.error('Form submission error:', errors);
     },
   });
 };
 
 // Filter teams based on the search query and palakasan_id
 const filteredTeams = computed(() => {
+  if (!props.latestPalakasan) return [];
+  
   return props.assignedTeams.filter(team =>
-    team.palakasan_id === props.latestPalakasan.id && // Filter by latest Palakasan event
+    team.palakasan_id === props.latestPalakasan.id &&
     (
       team.assigned_team_name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       team.college.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -165,6 +197,8 @@ const filteredTeams = computed(() => {
 
 // Computed property to get available colleges that haven't been assigned a team yet
 const availableColleges = computed(() => {
+  if (!props.latestPalakasan) return props.colleges;
+
   const assignedCollegeIds = props.assignedTeams
     .filter(team => team.palakasan_id === props.latestPalakasan.id)
     .map(team => team.college_id);

@@ -39,84 +39,13 @@
                                 </button>
                             </div>
 
-                            <Menu as="div" class="relative inline-block text-left">
-                                <MenuButton class="tooltip-btn inline-flex items-center justify-center w-full rounded-lg ring-1 ring-gray-300 shadow p-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" data-tooltip="Filter">
-                                    <i class="fa-solid fa-filter"></i>
-                                </MenuButton>
-                                <transition
-                                    enter-active-class="transition ease-out duration-100"
-                                    enter-from-class="transform opacity-0 scale-95"
-                                    enter-to-class="transform opacity-100 scale-100"
-                                    leave-active-class="transition ease-in duration-75"
-                                    leave-from-class="transform opacity-100 scale-100"
-                                    leave-to-class="transform opacity-0 scale-95"
-                                >
-                                    <MenuItems class="origin-top-right absolute right-0 z-10 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div class="py-1">
-                                            <!-- Radio Button Options -->
-                                            <label class="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100">
-                                                <input type="radio" name="filter" value="option1" class="form-radio text-indigo-600" />
-                                                <span class="ml-2 text-gray-700">Option 1</span>
-                                            </label>
-                                            <label class="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100">
-                                                <input type="radio" name="filter" value="option2" class="form-radio text-indigo-600" />
-                                                <span class="ml-2 text-gray-700">Option 2</span>
-                                            </label>
-                                            <label class="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100">
-                                                <input type="radio" name="filter" value="option3" class="form-radio text-indigo-600" />
-                                                <span class="ml-2 text-gray-700">Option 3</span>
-                                            </label>
-                                        </div>
-                                    </MenuItems>
-                                </transition>
-                            </Menu>
-                            <p class="text-2xl text-gray-400 mb-1">|</p>
-
                         </div>
                         <!--Buttons-->
                         <div class="flex items-center space-x-2.5">
                             <button @click="openModal(false)" class=" bg-blue-800 text-white py-2 px-3 rounded-lg text-sm font-medium shadow hover:bg-blue-800/90 transition-colors" >
-                                <i class="fa-solid fa-plus mr-1"></i>   
+                                <i class="fa-solid fa-square-plus mr-1"></i>   
                                 Sport                             
                             </button>
-                            <button class="tooltip-btn bg-white text-gray-800 p-2 text-sm rounded-lg ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors" data-tooltip="Logs">
-                                <i class="fa-solid fa-envelopes-bulk"></i>
-                            </button>
-
-
-                            <Menu as="div" class="relative inline-block text-left">
-                                    <MenuButton class="tooltip-btn inline-flex items-center justify-center w-full rounded-lg ring-1 ring-gray-300 shadow px-2.5 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" data-tooltip="Sort">
-                                    <i class="fa-solid fa-arrow-up-wide-short"></i>                                    
-                                    </MenuButton>
-                                    <transition
-                                    enter-active-class="transition ease-out duration-100"
-                                    enter-from-class="transform opacity-0 scale-95"
-                                    enter-to-class="transform opacity-100 scale-100"
-                                    leave-active-class="transition ease-in duration-75"
-                                    leave-from-class="transform opacity-100 scale-100"
-                                    leave-to-class="transform opacity-0 scale-95"
-                                    >
-                                    <MenuItems class="origin-top-right absolute right-0 z-10 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div class="py-1">
-                                        <MenuItem v-slot="{ active }">
-                                            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                            Default
-                                            </a>
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                            A-Z
-                                            </a>
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                            Z-A
-                                            </a>
-                                        </MenuItem>
-                                        </div>
-                                    </MenuItems>
-                                    </transition>
-                            </Menu>
                         </div>
                     </div>
                 </div>
@@ -197,7 +126,7 @@
                                 class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition relative"
                             >
                                 <span v-if="!form.processing">
-                                    {{ isEditing ? 'Update College' : 'Add College' }}
+                                    {{ isEditing ? 'Save' : 'Confirm' }}
                                 </span>
                                 <span v-else>
                                     <svg class="animate-spin h-4 w-4 mr-3 border-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

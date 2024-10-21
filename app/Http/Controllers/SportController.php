@@ -35,7 +35,7 @@ class SportController extends Controller
         // Validate the input fields in a single call
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:2500'
         
         ]);
                     

@@ -16,8 +16,9 @@ class Sport extends Model
         'description',
     ];
 
-    public function assignedSports()
+    public function assignedSport()
     {
         return $this->hasMany(AssignedSports::class, 'sport_id'); 
     }
+
 }

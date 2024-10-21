@@ -14,7 +14,7 @@ class College extends Model
     // A college can have many assigned teams
     public function assignedTeams()
     {
-        return $this->hasMany(AssignedTeams::class, 'college_id'); // Foreign key 'college_id'
+        return $this->hasMany(AssignedTeams::class, 'college_id'); 
     }
 }
 

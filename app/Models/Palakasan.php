@@ -29,4 +29,10 @@ class Palakasan extends Model
         return $this->hasMany(AssignedTeams::class, 'palakasan_id');
     }
 
+    public function assignedSports()
+    {
+        return $this->hasMany(AssignedSports::class, 'palakasan_sport_id');
+    }
+
+
 }

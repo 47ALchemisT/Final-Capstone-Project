@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignedSports;
 use App\Models\AssignedTeams;
 use App\Models\Palakasan;
 use Illuminate\Http\Request;
@@ -14,28 +15,28 @@ class PalakasanController extends Controller
      */
     public function index()
     {
+        $assignedSports = AssignedSports::all();
         $assignedTeams = AssignedTeams::all();
         $palakasans = Palakasan::all();
         // Get the latest Palakasan
         $latestPalakasan = Palakasan::latest()->first();
         return Inertia::render('SSCAdmin/Palakasan/Details',[
             'palakasans' => $palakasans,
+            'assignedSports' => $assignedSports,
             'assignedTeams' => $assignedTeams,
             'latestPalakasan' => $latestPalakasan, // Pass latest Palakasan to the view
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function anotherView()
     {
-        //
+        $palakasans = Palakasan::all(); // Fetch all Palakasan entries
+    
+        return Inertia::render('SSCAdmin/Palakasan/PalakasanLayout', [
+            'palakasans' => $palakasans, // Pass palakasans to the view
+        ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
         // Validate the request
@@ -63,49 +64,7 @@ class PalakasanController extends Controller
         return redirect('/palakasan/details')->with('success', 'Palakasan created successfully.');
            
     }
-    public function toggleStatus(Request $request, Palakasan $palakasan)
-    {
-        // Validate the status field
-        $request->validate([
-            'status' => 'required|boolean',
-        ]);
 
-        // Update the status
-        $palakasan->update([
-            'status' => $request->status,
-        ]);
-
-        // Optionally, return a response
-        return redirect()->back()->with('success', 'Palakasan status updated successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

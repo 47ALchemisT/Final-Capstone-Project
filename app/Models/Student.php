@@ -9,9 +9,15 @@ class Student extends Model
 {
     use HasFactory;
 
+    protected $table = 'students';
+
     protected $fillable = [
         'fullname',
         'email',
         'contact',
     ];
+    public function studentAccount()
+    {
+        return $this->hasOne(StudentAccount::class, 'student_id'); 
+    }
 }

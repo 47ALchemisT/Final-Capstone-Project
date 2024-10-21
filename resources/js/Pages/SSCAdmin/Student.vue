@@ -74,93 +74,97 @@
                 <!-- Updated table with pagination -->
                 <div>
                     <div class="border rounded-lg border-gray-300 shadow">
-                        <table class="min-w-full">
-                            <thead>
-                                <tr class=" text-blue-700">                                    
-                                    <th class="py-2 px-4 text-left border-b rounded-t-lg">ID</th>
-                                    <th class="py-2 px-4 text-left border-b ">Name</th>
-                                    <th class="py-2 px-4 text-left border-b">Email</th>
-                                    <th class="py-2 px-4 text-left border-b  ">Contact Number</th>                                    
-                                    <th class="py-2 px-4 text-left border-b  rounded-t-lg">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="student in paginatedStudents" :key="student.id" class="bg-white hover:bg-gray-50">
-                                    <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.id }}</td>
-                                    <td class="py-2 px-4 text-sm text-gray-800  font-semibold border-b">{{ student.fullname }}</td>
-                                    <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.email }}</td>
-                                    <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.contact }}</td>
-                                    <td class="py-2 px-4 text-sm text-gray-600 border-b">
-                                        <Menu as="div" class="relative inline-block text-left">
-                                                <MenuButton class="tooltip-btn inline-flex items-center justify-center w-full rounded-lg px-2.5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50" data-tooltip="Sort">
-                                                    <i class="fa-solid fa-ellipsis"></i>                                    
-                                                </MenuButton>
-                                                <transition
-                                                enter-active-class="transition ease-out duration-100"
-                                                enter-from-class="transform opacity-0 scale-95"
-                                                enter-to-class="transform opacity-100 scale-100"
-                                                leave-active-class="transition ease-in duration-75"
-                                                leave-from-class="transform opacity-100 scale-100"
-                                                leave-to-class="transform opacity-0 scale-95"
-                                                >
-                                                <MenuItems class="origin-top-right absolute right-0 z-10 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                    <div class="py-1">
-                                                    <MenuItem v-slot="{ active }">
-                                                        <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                                        Default
-                                                        </a>
-                                                    </MenuItem>
-                                                    <MenuItem v-slot="{ active }">
-                                                        <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                                        A-Z
-                                                        </a>
-                                                    </MenuItem>
-                                                    <MenuItem v-slot="{ active }">
-                                                        <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                                        Z-A
-                                                        </a>
-                                                    </MenuItem>
-                                                    </div>
-                                                </MenuItems>
-                                                </transition>
-                                        </Menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="p-4 flex justify-between items-center">
-                            <p class="text-sm text-gray-700 font-medium">
-                                Total number of students: <span class="font-bold">{{ filteredStudents.length }}</span>
-                            </p>
-                            <div class="space-x-2 flex items-center">
-                            <button 
-                                @click="prevPage"
-                                :disabled="currentPage === 1"
-                                :class="{'opacity-50 cursor-not-allowed': currentPage === 1}"
-                                type="button" 
-                                class="py-2 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            >
-                                <i class="fa-solid fa-chevron-left mr-1"></i>
-                                Prev
-                            </button>
-                            
-                            <div class="text-sm font-medium text-gray-700">
-                                Page {{ currentPage }} of {{ totalPages }}
-                            </div>
-                            
-                            <button 
-                                @click="nextPage"
-                                :disabled="currentPage === totalPages"
-                                :class="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
-                                type="button" 
-                                class="py-2 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg  hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            >
-                                Next
-                                <i class="fa-solid fa-chevron-right ml-1"></i>
-                            </button>
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class=" text-blue-700">                                    
+                                <th class="py-2 px-4 text-left border-b rounded-t-lg">ID</th>
+                                <th class="py-2 px-4 text-left border-b ">Name</th>
+                                <th class="py-2 px-4 text-left border-b">Email</th>
+                                <th class="py-2 px-4 text-left border-b  ">Contact Number</th>                                    
+                                <th class="py-2 px-4 text-left border-b  rounded-t-lg">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="paginatedStudents.length === 0">
+                                <td colspan="5" class="py-4 px-4 text-center text-gray-600">No student found.</td>
+                            </tr>
+                            <tr v-else v-for="student in paginatedStudents" :key="student.id" class="bg-white hover:bg-gray-50">
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.id }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-800  font-semibold border-b">{{ student.fullname }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.email }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.contact }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">
+                                    <Menu as="div" class="relative inline-block text-left">
+                                        <MenuButton class="tooltip-btn inline-flex items-center justify-center w-full rounded-lg px-2.5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50" data-tooltip="Sort">
+                                            <i class="fa-solid fa-ellipsis"></i>                                    
+                                        </MenuButton>
+                                        <transition
+                                        enter-active-class="transition ease-out duration-100"
+                                        enter-from-class="transform opacity-0 scale-95"
+                                        enter-to-class="transform opacity-100 scale-100"
+                                        leave-active-class="transition ease-in duration-75"
+                                        leave-from-class="transform opacity-100 scale-100"
+                                        leave-to-class="transform opacity-0 scale-95"
+                                        >
+                                        <MenuItems class="origin-top-right absolute right-0 z-10 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div class="py-1">
+                                            <MenuItem v-slot="{ active }">
+                                                <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                                Default
+                                                </a>
+                                            </MenuItem>
+                                            <MenuItem v-slot="{ active }">
+                                                <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                                A-Z
+                                                </a>
+                                            </MenuItem>
+                                            <MenuItem v-slot="{ active }">
+                                                <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                                Z-A
+                                                </a>
+                                            </MenuItem>
+                                            </div>
+                                        </MenuItems>
+                                        </transition>
+                                    </Menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="p-4 flex justify-between items-center">
+                        <p class="text-sm text-gray-700 font-medium">
+                            Total number of students: <span class="font-bold">{{ filteredStudents.length }}</span>
+                        </p>
+                        <div class="space-x-2 flex items-center">
+                        <button 
+                            @click="prevPage"
+                            :disabled="currentPage === 1"
+                            :class="{'opacity-50 cursor-not-allowed': currentPage === 1}"
+                            type="button" 
+                            class="py-2 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        >
+                            <i class="fa-solid fa-chevron-left mr-1"></i>
+                            Prev
+                        </button>
+                        
+                        <div class="text-sm font-medium text-gray-700">
+                            Page {{ currentPage }} of {{ totalPages }}
                         </div>
-                        </div>
+                        
+                        <button 
+                            @click="nextPage"
+                            :disabled="currentPage === totalPages"
+                            :class="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
+                            type="button" 
+                            class="py-2 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg  hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        >
+                            Next
+                            <i class="fa-solid fa-chevron-right ml-1"></i>
+                        </button>
                     </div>
+                    </div>
+                </div>
+
                 </div>
             </div>
 

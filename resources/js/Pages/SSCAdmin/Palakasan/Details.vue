@@ -1,62 +1,127 @@
 <template>
   <Palakasan>
-    <div class="grid grid-cols-6">
-      <div class="col-span-4 border border-gray-300 shadow p-4 rounded-lg">
-        <div class="flex justify-between">
-          <div>
-            <h1 class="text-2xl font-bold text-gray-800">Palakasan {{ latestPalakasan?.year }}</h1>
-            <p v-if="latestPalakasan" class="text-sm text-gray-700">
-              {{ latestPalakasan.start_date }} - {{ latestPalakasan.end_date }}
-            </p>
-          </div>
-          <div class="space-x-2.5 flex">
+    <div class="grid grid-cols-4">
+      <div class="col-span-4 rounded-lg">
+        <!-- Conditionally Render Palakasan Details or No Palakasan Message -->
+        <div v-if="latestPalakasan">
+          <div class="flex justify-between">
             <div>
-              <div class="flex rounded-lg">
-                <button 
-                  @click="toggleStatus(latestPalakasan)" 
-                  class="bg-red-600 text-white py-1.5 px-2.5 text-sm rounded-s-lg hover:bg-red-600/90 transition-colors">
-                  <i class="fa-solid fa-right-left"></i>
+              <h1 class="text-2xl font-bold text-gray-800">Palakasan {{ latestPalakasan.year }}</h1>
+              <p v-if="latestPalakasan" class="text-xs text-gray-500">
+                {{ latestPalakasan.start_date }} - {{ latestPalakasan.end_date }}
+              </p>
+            </div>
+            <div class="space-x-2.5 flex">
+              <div>
+                <div class="flex rounded-lg">
+                  <button 
+                    @click="toggleStatus(latestPalakasan)" 
+                    class="bg-red-600 text-white py-1.5 px-2.5 text-sm rounded-s-lg hover:bg-red-600/90 transition-colors">
+                    <i class="fa-solid fa-right-left"></i>
+                  </button>
+                  <p :class="latestPalakasan.status ? 'text-sm py-2.5 px-2 bg-green-50 rounded-e-lg text-green-700' : 'text-sm py-1.5 px-2 bg-red-100 rounded-e-lg text-red-700'">
+                    {{ latestPalakasan.status ? 'Activated' : 'Deactivated' }}
+                  </p>
+                </div>
+              </div>
+              <div class="space-x-2.5">
+                <button class="bg-white text-gray-800 py-1.5 px-2.5 text-sm rounded-md ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors">
+                  <i class="fa-solid fa-book mr-1.5"></i> History
                 </button>
-                <p :class="latestPalakasan && latestPalakasan.status ? 'text-sm py-2.5 px-2 bg-green-50 rounded-e-lg text-green-700' : 'text-sm py-1.5 px-2 bg-red-100 rounded-e-lg text-red-700'">
-                  {{ latestPalakasan ? (latestPalakasan.status ? 'Activated' : 'Deactivated') : '' }}
-                </p>
+                <button 
+                  @click="openModal" 
+                  class="text-white py-1.5 px-2.5 text-sm rounded-md bg-blue-700 shadow hover:bg-blue-700/90 transition-colors">
+                  <i class="fa-solid fa-file mr-1.5"></i> New
+                </button>
               </div>
             </div>
-            <div class="space-x-2.5">
-              <button class="bg-white text-gray-800 py-1.5 px-2.5 text-sm rounded-md ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors">
-                <i class="fa-solid fa-book mr-1.5"></i> History
-              </button>
-              <button 
-                @click="openModal" 
-                class="text-white py-1.5 px-2.5 text-sm rounded-md bg-blue-700 shadow hover:bg-blue-700/90 transition-colors">
-                <i class="fa-solid fa-file mr-1.5"></i> New
-              </button>
-            </div>
           </div>
+
+          <div  class="mt-3 grid grid-cols-5 gap-4">
+            <div class="col-span-3">
+              <div>
+                <p class="text-lg font-semibold text-gray-800">{{ latestPalakasan.theme }}</p>
+                <p class="text-sm text-gray-700">{{ latestPalakasan.tagline }}</p>
+                <hr class="mt-2 boreder-2 border-gray-300">
+                <p class="text-sm text-gray-700 mt-2">{{ latestPalakasan.description }}</p>
+              </div>
+
+              <div class="grid grid-cols-4 mt-4 gap-4">
+                <div class="p-4 bg-blue-50 hover:bg-blue-100 cursor-pointer rounded-lg">
+                  <div>
+                    <h1 class="text-md font-semibold text-blue-700">Sports</h1>
+                  </div>
+                  <p class="mt-4 text-center text-3xl font-semibold text-blue-700 mb-3">{{ sportsInLatestPalakasan.length }}</p>
+                  <p class="text-xs text-blue-700 text-center mb-3">total number of sports</p>
+                </div>
+                <div class="p-4 bg-blue-50 hover:bg-blue-100 cursor-pointer rounded-lg">
+                  <div>
+                    <h1 class="text-md font-semibold text-blue-700">Teams</h1>
+                  </div>
+                  <p class="mt-4 text-center text-3xl font-semibold text-blue-700 mb-3">{{ teamsInLatestPalakasan.length }}</p>
+                  <p class="text-xs text-blue-700 text-center mb-3">total number of teams</p>
+                </div>
+              </div>
+            </div>
+            <div class="right-side col-span-2 bg-blue-50 p-4 rounded-lg">
+              <h1 class=" font-medium text-blue-700">Ranking</h1>
+              <div class="relative overflow-x-auto mt-3">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-blue-700 uppercase bg-blue-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Rank
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Team
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Points
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-blue-200">
+                            <th scope="row" class="px-6 py-4 text-blue-700 whitespace-nowrap dark:text-white">
+                                1st
+                            </th>
+                            <td class="px-6 py-4 font-medium text-blue-700">
+                                Tartaros
+                            </td>
+                            <td class="px-6 py-4">
+                                100 Points
+                            </td>
+                        </tr>
+                        <tr class="border-b border-blue-200">
+                            <th scope="row" class="px-6 py-4 text-blue-700 whitespace-nowrap dark:text-white">
+                                1st
+                            </th>
+                            <td class="px-6 py-4 font-medium text-blue-700">
+                                Tartaros
+                            </td>
+                            <td class="px-6 py-4">
+                                100 Points
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+
+          </div>
+
         </div>
 
-        <div v-if="latestPalakasan" class="mt-3">
-          <p class="text-md font-semibold text-gray-800">{{ latestPalakasan.theme }}</p>
-          <p class="text-sm text-gray-700">{{ latestPalakasan.tagline }}</p>
-
-          <p class="text-sm text-gray-700 mt-2">{{ latestPalakasan.description }}</p>
-        </div>
-
-        <div class="grid grid-cols-4 mt-4 gap-4">
-          <div class="p-4 bg-blue-50 hover:bg-blue-100 cursor-pointer rounded-lg">
-            <div>
-              <h1 class="text-md font-semibold text-blue-700">Sports</h1>
-            </div>
-            <p class="mt-4 text-center text-3xl font-semibold text-blue-700 mb-3">0</p>
-            <p class="text-xs text-blue-700 text-center mb-3">total number of sports</p>
-          </div>
-          <div class="p-4 bg-blue-50 hover:bg-blue-100 cursor-pointer rounded-lg">
-            <div>
-              <h1 class="text-md font-semibold text-blue-700">Teams</h1>
-            </div>
-            <p class="mt-4 text-center text-3xl font-semibold text-blue-700 mb-3">{{ teamsInLatestPalakasan.length }}</p>
-            <p class="text-xs text-blue-700 text-center mb-3">total number of teams</p>
-          </div>
+        <!-- Message when no Palakasan is created yet -->
+        <div v-else class="text-center py-10 bg-blue-50 border-2 border-blue-500 rounded-lg border-dashed border-spacing-4">
+          <h1 class="text-2xl font-semibold text-blue-700">No Palakasan Created Yet</h1>
+          <p class="text-blue-600">Please create a new Palakasan event.</p>
+          <button 
+            @click="openModal" 
+            class="mt-5 text-white py-2.5 px-4 text-sm rounded-md bg-blue-700 shadow hover:bg-blue-700/90 transition-colors">
+            <i class="fa-solid fa-file mr-1.5"></i> Create New Palakasan
+          </button>
         </div>
       </div>
     </div>
@@ -124,9 +189,10 @@ import { useForm } from '@inertiajs/vue3';
 import Palakasan from '@/Layout/PalakasanLayout.vue';
 
 const props = defineProps({
+        latestPalakasan: Array,
         palakasans: Array,
         assignedTeams:Array,
-        latestPalakasan:Array,
+        assignedSports:Array,
         errors: Object
     })
 
@@ -140,6 +206,12 @@ const latestPalakasan = computed(() => {
 const teamsInLatestPalakasan = computed(() => {
   return props.assignedTeams.filter(team => team.palakasan_id === props.latestPalakasan.id);
 });
+
+// Computed property to filter teams by latest Palakasan event
+const sportsInLatestPalakasan = computed(() => {
+  return props.assignedSports.filter(team => team.palakasan_sport_id === props.latestPalakasan.id);
+});
+
 
 
 // Initialize useForm with default values
@@ -177,23 +249,6 @@ const submitPalakasan = () => {
 
 //
 
-const toggleStatus = (palakasan) => {
-  // Prepare the updated status (toggle between true and false)
-  const updatedStatus = !palakasan.status;
-
-  // Send the update to the server
-  form.put(`/palakasan/${palakasan.id}/toggle-status`, {
-    preserveScroll: true,  // Optional, prevents scroll to top after submission
-    data: { status: updatedStatus },
-    onSuccess: () => {
-      // Update the local status after the server response
-      palakasan.status = updatedStatus;
-    },
-    onError: () => {
-      console.error('Error updating the status');
-    },
-  });
-};
 </script>
 
 <style scoped>

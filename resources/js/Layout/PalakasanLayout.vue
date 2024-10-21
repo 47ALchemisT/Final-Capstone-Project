@@ -36,12 +36,13 @@
                     </li>
                     <li>
                         <Link 
-                            href="/palakasan/sports" 
+                            href="/palakasan/sportselection" 
                             class="items-center py-1.5 px-3 text-sm rounded-md"
                             :class="{
-                                'bg-blue-700 text-white': currentRoute.startsWith('/palakasan/sports'), 
-                                'text-gray-600 hover:bg-gray-200 hover:text-gray-800': !currentRoute.startsWith('/palakasan/sports')
+                                'bg-blue-700 text-white': currentRoute.startsWith('/palakasan/sportselection'), 
+                                'text-gray-600 hover:bg-gray-200 hover:text-gray-800': !currentRoute.startsWith('/palakasan/sportselection')
                             }"
+   
                         >
                             <i class="fa-solid fa-basketball"></i>
                             <span class="ms-2">Sports</span>
@@ -52,26 +53,21 @@
             </nav>
         </div>
 
-
         <!-- Slot for Details Content (show by default when on /palakasan or /palakasandetails) -->
         <div class="mt-3">
-            <slot>
-            </slot>
+            <slot></slot>
         </div>
     </AppLayout>
 </template>
 
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
 import AppLayout from '@/Layout/DashboardLayout.vue';
 
-
-const { url: currentRoute } = usePage(); // current URL is stored in currentRoute
-
-// Determine if the Details tab is active
-const isDetailsActive = currentRoute === '/palakasan';
+    const { url: currentRoute } = usePage(); // current URL is stored in currentRoute
 </script>
 
 <style scoped>
-/* Add styles if needed for the nav tabs */
+
 </style>
