@@ -2,14 +2,9 @@
     <Head title="College"/>
     <AppLayout>
         <template v-slot:default>
-            <!-- Head Section -->
-            <div>
-                <h1 class="text-3xl font-semibold text-gray-800">Palakasan</h1>
-                <h1 class="text-sm font-normal text-gray-700">List of colleges in MSU at Naawan</h1>
-            </div>
 
             <!-- Tabs Navigation -->
-            <div class="mt-4 flex">
+            <div class=" flex">
                 <nav class="flex space-x-2.5 p-2 text-sm bg-blue-100/80 rounded-lg">
                     <!-- Details Button -->
                     <button 
@@ -20,7 +15,6 @@
                         class="px-3 py-1 rounded"
                         @click="activeTab = 'details'">
                         Details
-                        <i class="fa-solid fa-file ml-1"></i>
                     </button>
 
                     <!-- Teams Button -->
@@ -34,7 +28,6 @@
                         @click="latestPalakasan && (activeTab = 'teams')"
                         :disabled="!latestPalakasan">
                         Teams
-                        <i class="fa-solid fa-people-group ml-1"></i>
                     </button>
 
                     <!-- Sports Button -->
@@ -48,7 +41,28 @@
                         @click="latestPalakasan && (activeTab = 'sports')"
                         :disabled="!latestPalakasan">
                         Sports
-                        <i class="fa-solid fa-basketball ml-1"></i>
+                    </button>
+                    <button 
+                        :class="{
+                            'bg-blue-700 text-white shadow-md': activeTab === 'schedules',
+                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'schedules' && latestPalakasan,
+                            'text-gray-400 cursor-not-allowed': !latestPalakasan
+                        }"
+                        class="px-3 py-1 rounded"
+                        @click="latestPalakasan && (activeTab = 'schedules')"
+                        :disabled="!latestPalakasan">
+                        Schedules
+                    </button>
+                    <button 
+                        :class="{
+                            'bg-blue-700 text-white shadow-md': activeTab === 'archive',
+                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'archive' && latestPalakasan,
+                            'text-gray-400 cursor-not-allowed': !latestPalakasan
+                        }"
+                        class="px-3 py-1 rounded"
+                        @click="latestPalakasan && (activeTab = 'archive')"
+                        :disabled="!latestPalakasan">
+                        Archive
                     </button>
                 </nav>
             </div>
@@ -62,25 +76,33 @@
 
                         <div class="flex justify-between items-center">
                             <div>
-                                <h1  class="text-2xl font-bold text-gray-800">Palakasan {{ latestPalakasan.year }}</h1>
+                                <div class="flex gap-2 items-center">
+                                    <h1  class="text-2xl font-bold text-gray-800">Palakasan {{ latestPalakasan.year }}</h1>
+                                    <p :class="latestPalakasan.status ? 'text-sm py-1 px-2 bg-green-50 rounded-lg text-green-700' : 'text-sm py-1.5 px-2 bg-red-100 rounded-lg text-red-700'">
+                                        {{ latestPalakasan.status ? 'Activated' : 'Deactivated' }}
+                                    </p>
+                                </div>
                                 <p v-if="latestPalakasan" class="text-xs text-gray-500">
                                     {{ latestPalakasan.start_date }} - {{ latestPalakasan.end_date }}
                                 </p>
                             </div>
                             <!--utility, history and creating-->
                             <div class="flex gap-2.5 items-center">
-                                <p :class="latestPalakasan.status ? 'text-sm py-2.5 px-2 bg-green-50 rounded-lg text-green-700' : 'text-sm py-1.5 px-2 bg-red-100 rounded-lg text-red-700'">
-                                    {{ latestPalakasan.status ? 'Activated' : 'Deactivated' }}
-                                </p>
-                                <button class="bg-white text-gray-800 py-1.5 px-2.5 text-sm rounded-md ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors">
+
+                                <button @click="openStatusModal" class="bg-white text-gray-800 py-1.5 px-2.5 text-sm rounded-md ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors">
                                     <i class="fa-solid fa-rotate mr-1.5"></i> Status
                                 </button>
-                                <button class="bg-white text-gray-800 py-1.5 px-2.5 text-sm rounded-md ring-1 ring-gray-300 shadow hover:bg-gray-100 transition-colors">
-                                    <i class="fa-solid fa-book mr-1.5"></i> History
-                                </button>
+
                                 <button 
                                     @click="openPalakasanModal" 
-                                    class="text-white py-1.5 px-2.5 text-sm rounded-md bg-blue-700 shadow hover:bg-blue-700/90 transition-colors">
+                                    :disabled="latestPalakasan.status"
+                                    :class="[
+                                        'py-1.5 px-2.5 text-sm rounded-md shadow transition-colors',
+                                        latestPalakasan.status 
+                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                                            : 'bg-blue-700 text-white hover:bg-blue-700/90'
+                                    ]"
+                                >
                                     <i class="fa-solid fa-file mr-1.5"></i> New
                                 </button>
                             </div>
@@ -491,6 +513,42 @@
                 </form>
             </div>
             </div>
+            <!-- Status Update Modal -->
+            <div v-if="isStatusModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Update Palakasan Status</h2>
+
+                    <form @submit.prevent="updateStatus">
+                        <div class="mb-4">
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <select v-model="statusForm.status" id="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                <option :value="true">Activate</option>
+                                <option :value="false">Deactivate</option>
+                            </select>
+                        </div>
+
+                        <div class="flex justify-end space-x-2">
+                            <button @click="closeStatusModal" type="button" class="bg-gray-100 text-gray-700 py-1.5 px-3 rounded-md hover:bg-gray-200">Cancel</button>
+                            <button
+                                type="submit"
+                                :disabled="statusForm.processing"
+                                class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition relative"
+                            >
+                                <span v-if="!statusForm.processing">
+                                    Update
+                                </span>
+                                <span v-else>
+                                    <svg class="animate-spin h-4 w-4 mr-3 border-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.969 7.969 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Processing...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </template>
     </AppLayout>
 </template>
@@ -516,6 +574,7 @@
     const isPalakasanModalOpen = ref(false);
     const isSportsModalOpen = ref(false);
     const isTeamsModalOpen = ref(false);
+    const isStatusModalOpen = ref(false);
 
 
     // Initialize palakasan useForm with default values
@@ -542,11 +601,14 @@
         college_id: '',
         palakasan_id: props.latestPalakasan?.id || '', // Use optional chaining and provide a default
     });
+    //status
+    const statusForm = useForm({
+        status: props.latestPalakasan?.status || false,
+    });
 
     const availableSports = ref(props.sports);
     const availableColleges = ref(props.colleges);
 
-    // Function to open the Palakasan modal
     const openPalakasanModal = () => {
         isPalakasanModalOpen.value = true;
     };
@@ -578,7 +640,7 @@
   
     // Submit form for adding a new sports
     const submitSport = () => {
-        form1.post(route('sport.store'), {
+        form1.post(route('palakasanSport.store'), {
         onSuccess: () => {
             closeSportsModal();
             },
@@ -610,6 +672,28 @@
             },
         });
     };
+    //status
+    const openStatusModal = () => {
+        isStatusModalOpen.value = true;
+    };
+
+    const closeStatusModal = () => {
+        isStatusModalOpen.value = false;
+        statusForm.reset();
+    };
+
+    const updateStatus = () => {
+        statusForm.put(route('palakasan.updateStatus', { id: props.latestPalakasan.id }), {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                closeStatusModal();
+                // Reload the entire page after success
+                window.location.reload();
+            },
+        });
+    };
+
 
     //Search and sort functionalities
     // State variables for search and sort (for both teams and sports)
@@ -671,7 +755,7 @@
         // Default sort order (as per the original assignedSports array)
         return filteredSports;
     });
-    
+
 </script>
 
 <style scoped>

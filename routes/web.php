@@ -29,8 +29,9 @@ Route::resource('palakasan/sportselection', PalakasanSportsController::class);
 //trial routinf
 Route::get('details', [OnePalakasanController::class, 'details'])->name('palakasan.details'); // Displays the details
 Route::post('detail/store', [OnePalakasanController::class, 'store_palakasan'])->name('palakasan.store');
-Route::post('sport/store', [OnePalakasanController::class, 'store_sports'])->name('sport.store');
+Route::post('sport/store', [OnePalakasanController::class, 'store_sports'])->name('palakasanSport.store');
 Route::post('team/store', [OnePalakasanController::class, 'store_teams'])->name('team.store');
+Route::put('/palakasan/{id}/update-status', [OnePalakasanController::class, 'updateStatus'])->name('palakasan.updateStatus');
 
 
 

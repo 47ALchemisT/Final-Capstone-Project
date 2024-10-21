@@ -59,7 +59,7 @@
                             <p class="text-sm text-gray-500">Status: <span :class="{'text-green-600': account.status, 'text-red-600': !account.status}">{{ account.status ? 'Active' : 'Inactive' }}</span></p>
                         </div>
                     </div>
-                    <p v-else class="text-gray-500">No accounts found.</p>
+                    <p v-else class="text-gray-500 text-center">No accounts found.</p>
                 </div>
             </div>
 

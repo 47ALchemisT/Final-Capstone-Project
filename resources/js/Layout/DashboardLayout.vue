@@ -1,12 +1,12 @@
 <template>
     <div>
         <!-- Navbar -->
-        <nav class="bg-blue-800 fixed top-0 left-0 right-0 z-50">
+        <nav class="bg-blue-700 fixed top-0 left-0 right-0 z-50">
             <div class="px-6">
                 <div class="flex justify-between h-16">
                     <div class="flex-shrink-0 flex space-x-3 items-center">
-                        <img class="w-10 h-10 rounded-full border-2 object-cover cursor-pointer" src='/resources/assets/logoMSU.png' alt="User dropdown">
-                        <span class="text-xl font-semibold text-white">Sport Palakasan Information System</span>
+                        <img class="w-10 h-10 rounded-full object-cover cursor-pointer" src='/resources/assets/logoMSU.png' alt="User dropdown">
+                        <span class="text-xl font-semibold text-white">SPIS</span>
                     </div>
                     <div class="ml-3 relative flex items-center gap-3">
                         <div>
@@ -63,7 +63,7 @@
                                 <Link 
                                     href="/" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg transition-all"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/'}"
                                 >
                                     <i class="fa-solid fa-square-poll-horizontal"></i>
                                     <span class="ms-3">Dashboard</span>
@@ -76,7 +76,7 @@
                                 <Link 
                                     href="/sport" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg mb-2"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/sport', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/sport'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/sport', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/sport'}"
                                 >
                                     <i class="fa-solid fa-basketball"></i>
                                     <span class="ms-3">Sports</span>
@@ -84,7 +84,7 @@
                                 <Link 
                                     href="/points" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg mb-2"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/points', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/points'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/points', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/points'}"
                                 >
                                     <i class="fa-solid fa-flag"></i>
                                     <span class="ms-3">Points</span>
@@ -92,7 +92,7 @@
                                 <Link 
                                     href="/venue" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg mb-2"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/venue', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/venue'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/venue', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/venue'}"
                                 >
                                     <i class="fa-solid fa-map-location-dot"></i>
                                     <span class="ms-3">Venue</span>
@@ -100,7 +100,7 @@
                                 <Link 
                                     href="/college" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg mb-2"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/college', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/college'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/college', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/college'}"
                                 >
                                     <i class="fa-solid fa-museum"></i>
                                     <span class="ms-3">College</span>
@@ -108,7 +108,7 @@
                                 <Link 
                                     href="/student" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg mb-2"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/student', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/student'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/student', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/student'}"
                                 >
                                     <i class="fa-solid fa-graduation-cap"></i>
                                     <span class="ms-3">student</span>
@@ -122,7 +122,7 @@
                                     href="/details" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg transition-all"
                                     :class="{
-                                    'bg-blue-800 text-white': currentRoute.startsWith('/details'), 
+                                    'bg-blue-700 text-white': currentRoute.startsWith('/details'), 
                                     'text-gray-700 hover:bg-blue-100 hover:text-blue-600': !currentRoute.startsWith('/details')
                                     }"
                                 >
@@ -134,7 +134,7 @@
                                 <Link 
                                     href="/account" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg transition-all"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/account', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/account'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/account', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/account'}"
                                 >
                                     <i class="fa-solid fa-user-group"></i>
                                     <span class="ms-3">Account</span>
@@ -148,7 +148,7 @@
                                 <Link 
                                     href="/logout" 
                                     class="flex items-center py-2 px-3 text-md rounded-lg transition-all"
-                                    :class="{'bg-blue-800 text-white': currentRoute === '/logout', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/logout'}"
+                                    :class="{'bg-blue-700 text-white': currentRoute === '/logout', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/logout'}"
                                 >
                                 <i class="fa-solid fa-right-from-bracket"></i>                                    
                                 <span class="ms-3">Log out</span>

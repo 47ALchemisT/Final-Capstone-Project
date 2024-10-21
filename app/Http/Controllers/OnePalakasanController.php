@@ -115,4 +115,18 @@ class OnePalakasanController extends Controller
         // Return a success response or redirect
         return redirect('/palakasan/team')->with('success', 'Team created successfully!');
     }
+
+    //status
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|boolean',
+        ]);
+
+        $palakasan = Palakasan::findOrFail($id);
+        $palakasan->status = $request->status;
+        $palakasan->save();
+
+        return redirect()->back()->with('success', 'Palakasan status updated successfully.');
+    }
 }

@@ -52,7 +52,7 @@
 
                 <!--Main Content, List of Cards-->
                 <div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-4">
+                    <div v-if="points.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-4">
                         <div v-for="point in points" :key="point.id" class="bg-white rounded-lg shadow hover:shadow-lg transition-all ring-1 ring-gray-300">
                             <div class="p-4 relative">
                                 <div class="absolute right-3 top-3">
@@ -100,6 +100,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div v-else class="text-center text-gray-600 mt-4">
+                        No point setup found.
                     </div>
                 </div>
             </div>

@@ -52,7 +52,7 @@
 
                 <!--Main Content, List of Cards-->
                 <div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-4">
+                    <div  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-4">
                         <div v-for="sport in sports" :key="sport.id" class="bg-white rounded-lg shadow hover:shadow-lg transition-all ring-1 ring-gray-300">
                             <div class="p-4 relative">
                                 <div class="absolute right-3 top-3">

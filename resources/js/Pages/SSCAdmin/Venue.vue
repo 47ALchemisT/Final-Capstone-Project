@@ -37,8 +37,6 @@
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
-
-
                             <p class="text-2xl text-gray-400 mb-1">|</p>
                             <div class="text-sm font-medium text-gray-700">
                                 <p>Number of venues: <span>{{ venues.length }}</span></p>
@@ -56,7 +54,7 @@
                 </div>
 
                 <!--Main Content, List of Venue Cards-->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+                <div v-if="filteredVenues.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
                     <!-- Venue Card -->
                     <div v-for="venue in filteredVenues" :key="venue.id" class="bg-white rounded-lg ring-1 ring-gray-300 shadow overflow-hidden transition-all duration-300 hover:shadow-lg">
                         <div class="relative p-6">
@@ -100,6 +98,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div v-else class="text-center text-gray-600 mt-4">
+                    No venues found.
                 </div>
             </div>
 
