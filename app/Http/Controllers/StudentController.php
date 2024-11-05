@@ -43,10 +43,13 @@ class StudentController extends Controller
             if (!empty($row[0]) && !empty($row[1]) && !empty($row[2])) {
                 // Use updateOrCreate to update existing records or create new ones
                 $student = Student::updateOrCreate(
-                    ['fullname' => $row[0]], // Check if a student with this name exists
+                    ['first_name' => $row[0]], // Check if a student with this name exists
                     [
-                        'email' => $row[1],
-                        'contact' => $row[2],
+                        'last_name' => $row[1],
+                        'id_number' => $row[2],
+                        'univ_email' => $row[3],
+                        'college' => $row[4],
+                        'contact' => $row[5],
                     ]
                 );
 

@@ -27,6 +27,40 @@ class AssignedTeams extends Model
     {
         return $this->belongsTo(Palakasan::class, 'palakasan_id');
     }
+
+    // An assigned team can participate in many matches (TeamA or TeamB)
+    public function matchesAsTeamA()
+    {
+        return $this->hasMany(SportMatch::class, 'teamA_id');
+    }
+
+    public function matchesAsTeamB()
+    {
+        return $this->hasMany(SportMatch::class, 'teamB_id');
+    }
+
+     // Added a method to get all matches for the team
+     public function allMatches()
+     {
+         return $this->matchesAsTeamA()->union(
+             $this->matchesAsTeamB()->toBase()
+         );
+     }
+ 
+     public function winning_team()
+     {
+         return $this->hasMany(MatchResult::class, 'winning_team_id');
+     }
+ 
+     public function losing_team()
+     {
+         return $this->hasMany(MatchResult::class, 'losing_team_id');
+     }
+
+     public function assignedTeamVariationID()
+     {
+         return $this->hasMany(SportsVariationsMatches::class, 'sport_variation_team_id');
+     }
     
 }
 

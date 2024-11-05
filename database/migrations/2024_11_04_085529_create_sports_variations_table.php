@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('sports_variations', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('id_number');
-            $table->string('univ_email');
-            $table->string('college');
-            $table->string('contact');
+            $table->foreignId('assigned_sport_id')->constrained('assigned_sports')->onDelete('cascade'); // Foreign key to assigned_sports
+            $table->string('sport_variation_name');
+            $table->foreignId('sport_variation_venue_id')->constrained('venues')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('sports_variations');
     }
 };

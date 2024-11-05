@@ -57,7 +57,7 @@
             <aside class="fixed top-0 left-0 z-40 w-64 h-screen bg-white border-e border-gray-300 shadow pt-16">
                 <div class="h-full px-5 py-4 overflow-y-auto flex flex-col justify-between space-y-2">
                     <div>
-                        <span class="text-xs text-gray-800 font-medium">Menu</span>
+                        <div class="text-xs mb-2 mt-1 text-gray-800 font-medium">Dashboard</div>
                         <ul class="space-y-2" style="margin-bottom: 6px;">
                             <li>
                                 <Link 
@@ -70,7 +70,7 @@
                                 </Link>
                             </li>
                         </ul>
-                        <span class="text-xs text-gray-800 font-medium">Setup</span>
+                        <div class="text-xs mb-2 mt-1 text-gray-800 font-medium">Setup</div>
                         <ul class="space-y-2">
                             <li>
                                 <Link 
@@ -95,7 +95,7 @@
                                     :class="{'bg-blue-700 text-white': currentRoute === '/venue', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/venue'}"
                                 >
                                     <i class="fa-solid fa-map-location-dot"></i>
-                                    <span class="ms-3">Venue</span>
+                                    <span class="ms-3">Venues</span>
                                 </Link>
                                 <Link 
                                     href="/college" 
@@ -103,7 +103,7 @@
                                     :class="{'bg-blue-700 text-white': currentRoute === '/college', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/college'}"
                                 >
                                     <i class="fa-solid fa-museum"></i>
-                                    <span class="ms-3">College</span>
+                                    <span class="ms-3">Colleges</span>
                                 </Link>
                                 <Link 
                                     href="/student" 
@@ -111,11 +111,11 @@
                                     :class="{'bg-blue-700 text-white': currentRoute === '/student', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/student'}"
                                 >
                                     <i class="fa-solid fa-graduation-cap"></i>
-                                    <span class="ms-3">student</span>
+                                    <span class="ms-3">Students</span>
                                 </Link>
                             </li>
                         </ul>
-                        <span class="text-xs text-gray-800 font-medium">Main</span>
+                        <div class="text-xs mb-2 mt-1 text-gray-800 font-medium">Main</div>
                         <ul class="space-y-2" style="margin-bottom: 6px;">
                             <li>
                                 <Link 
@@ -137,7 +137,7 @@
                                     :class="{'bg-blue-700 text-white': currentRoute === '/account', 'text-gray-700 hover:bg-blue-100 hover:text-blue-600': currentRoute !== '/account'}"
                                 >
                                     <i class="fa-solid fa-user-group"></i>
-                                    <span class="ms-3">Account</span>
+                                    <span class="ms-3">Accounts</span>
                                 </Link>
                             </li>
                         </ul>

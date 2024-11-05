@@ -16,4 +16,14 @@ class Venue extends Model
         'description',
         'location'
     ];
+
+    public function matchVenue()
+    {
+        return $this->hasMany(SportMatch::class, 'match_venue_id'); 
+    }
+
+    public function venue_id()
+    {
+        return $this->hasMany(SportsVariations::class, 'sport_variation_venue_id'); 
+    }
 }

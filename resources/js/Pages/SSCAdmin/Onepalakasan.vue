@@ -4,68 +4,31 @@
         <template v-slot:default>
 
             <!-- Tabs Navigation -->
-            <div class=" flex">
-                <nav class="flex space-x-2.5 p-2 text-sm bg-blue-100/80 rounded-lg">
-                    <!-- Details Button -->
-                    <button 
-                        :class="{
-                            'bg-blue-700 text-white shadow-md': activeTab === 'details',
-                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'details'
-                        }"
-                        class="px-3 py-1 rounded"
-                        @click="activeTab = 'details'">
-                        Details
+            <nav class="flex relative justify-between  items-center">
+                <div class="bg-gray-100 flex gap-2 rounded-lg p-1.5">
+                    <div class="bg-gray-100 flex gap-2 rounded-lg">
+                        <button 
+                            v-for="tab in ['details', 'lineups', 'leagues']"
+                            :key="tab"
+                            @click="setActiveTab(tab)"
+                            :class="[
+                            'px-5 py-1 text-sm',
+                            activeTab === tab
+                                ? 'text-gray-800 ring-1 ring-gray-300 bg-white rounded-md'
+                                : 'text-gray-500 hover:text-gray-700 border-transparent'
+                            ]"
+                        >
+                            {{ tab.charAt(0).toUpperCase() + tab.slice(1) }}
+                        </button>
+                        </div>
+                </div>
+                <div class="">
+                    <button type="button" class=" text-white bg-blue-700 hover:bg-blue-700/90 text-sm focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-lg px-4 py-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                        <i class="fa-solid fa-box-archive mr-1.5"></i>
+                        History
                     </button>
-
-                    <!-- Teams Button -->
-                    <button 
-                        :class="{
-                            'bg-blue-700 text-white shadow-md': activeTab === 'teams',
-                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'teams' && latestPalakasan,
-                            'text-gray-400 cursor-not-allowed': !latestPalakasan
-                        }"
-                        class="px-3 py-1 rounded"
-                        @click="latestPalakasan && (activeTab = 'teams')"
-                        :disabled="!latestPalakasan">
-                        Teams
-                    </button>
-
-                    <!-- Sports Button -->
-                    <button 
-                        :class="{
-                            'bg-blue-700 text-white shadow-md': activeTab === 'sports',
-                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'sports' && latestPalakasan,
-                            'text-gray-400 cursor-not-allowed': !latestPalakasan
-                        }"
-                        class="px-3 py-1 rounded"
-                        @click="latestPalakasan && (activeTab = 'sports')"
-                        :disabled="!latestPalakasan">
-                        Sports
-                    </button>
-                    <button 
-                        :class="{
-                            'bg-blue-700 text-white shadow-md': activeTab === 'schedules',
-                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'schedules' && latestPalakasan,
-                            'text-gray-400 cursor-not-allowed': !latestPalakasan
-                        }"
-                        class="px-3 py-1 rounded"
-                        @click="latestPalakasan && (activeTab = 'schedules')"
-                        :disabled="!latestPalakasan">
-                        Schedules
-                    </button>
-                    <button 
-                        :class="{
-                            'bg-blue-700 text-white shadow-md': activeTab === 'archive',
-                            'text-gray-700 hover:bg-blue-200 hover:text-blue-700 transition-colors ease-in-out': activeTab !== 'archive' && latestPalakasan,
-                            'text-gray-400 cursor-not-allowed': !latestPalakasan
-                        }"
-                        class="px-3 py-1 rounded"
-                        @click="latestPalakasan && (activeTab = 'archive')"
-                        :disabled="!latestPalakasan">
-                        Archive
-                    </button>
-                </nav>
-            </div>
+                </div>
+            </nav>
 
             <!-- Tabs Content -->
             <div class="mt-4">
@@ -73,13 +36,12 @@
                 <div v-if="activeTab === 'details'">
                     <div v-if="latestPalakasan">
                         <!--head-->
-
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex gap-2 items-center">
                                     <h1  class="text-2xl font-bold text-gray-800">Palakasan {{ latestPalakasan.year }}</h1>
                                     <p :class="latestPalakasan.status ? 'text-sm py-1 px-2 bg-green-50 rounded-lg text-green-700' : 'text-sm py-1.5 px-2 bg-red-100 rounded-lg text-red-700'">
-                                        {{ latestPalakasan.status ? 'Activated' : 'Deactivated' }}
+                                        {{ latestPalakasan.status ? 'Ongoing' : 'Completed' }}
                                     </p>
                                 </div>
                                 <p v-if="latestPalakasan" class="text-xs text-gray-500">
@@ -194,7 +156,7 @@
                 </div>
 
                 <!-- Teams Tab Content -->
-                <div v-if="activeTab === 'teams'">
+                <div v-if="activeTab === 'lineups'">
                     <div class="flex mb-4 items-center justify-between gap-2">
                         <div class="flex items-center gap-2">
                             <!-- Search Input -->
@@ -252,7 +214,7 @@
                 </div>
 
                 <!-- Sports Tab Content -->
-                <div v-if="activeTab === 'sports'" class="mt-4">
+                <div v-if="activeTab === 'leagues'" class="mt-4">
                     <div class="flex mb-4 items-center justify-between gap-2">
                         <div class="flex items-center gap-2">
                             <!-- Search Input -->
@@ -266,7 +228,7 @@
                             </div>
                             <button @click="openSportsModal" class="bg-blue-700 text-sm text-white px-4 py-2 rounded-lg">
                                 <i class="fa-solid fa-square-plus mr-1"></i>
-                                Add Sport
+                                Select Sport
                             </button>
                         </div>
                         <!-- Sort Button -->
@@ -297,18 +259,22 @@
                     </div>
 
 
-                    <!-- Display assigned sports as cards -->
-                    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        <div v-for="(sport, index) in filteredAndSortedSports" :key="index" class="bg-white ring-1 ring-gray-300 shadow rounded-lg p-4">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <!-- Optional icon or image for sport (Placeholder icon used here) -->
-                                    <i class="fa-solid fa-volleyball-ball text-blue-700 text-3xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-semibold">{{ sport.sport.name }}</h3>
-                                    <p class="text-sm text-gray-600">Category: {{ sport.categories }}</p>
-                                    <p class="text-sm text-gray-600">{{ sport.description }}</p>
+                    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <div
+                            v-for="(sport, index) in filteredAndSortedSports"
+                            :key="index"
+                            @click="viewSport(sport.id)"
+                            class="bg-white ring-1 ring-gray-300 shadow cursor-pointer rounded-lg p-4 transition-all duration-300 ease-in-out hover:shadow-lg hover:ring-blue-300 group relative overflow-hidden"
+                            >
+                            <div class="flex items-center justify-between">
+                                <div class="w-full">
+                                    <div class="flex justify-between items-center">
+                                        <h3 class="text-xl font-semibold">{{ sport.sport.name }} {{ sport.categories }}</h3>
+                                        <i class="fas fa-arrow-right text-blue-500 transform translate-x-8 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:opacity-100"></i>
+                                    </div>
+                                    <div class="flex gap-2 mt-1.5">
+                                        <p class="text-xs px-3 py-1 bg-blue-100 rounded-md text-blue-700">{{ sport.setup }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -389,38 +355,42 @@
             <div v-if="isSportsModalOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
                 <h3 class="text-lg font-semibold mb-4">Add sport</h3>
-        
+
                 <form @submit.prevent="submitSport">
                     <!-- Hidden Palakasan ID input -->
                     <input type="text" v-model="form1.palakasan_sport_id" class="hidden" />
+                    
                     <!-- Select Sport -->
                     <div class="mb-4">
                     <label for="sport" class="block text-sm font-medium">Select Sport</label>
-                    <select v-model="form1.sport_id" id="sport" class="w-full border px-3 py-2 rounded-lg">
+                    <select 
+                        v-model="form1.sport_id" 
+                        id="sport" 
+                        class="w-full border px-3 py-2 rounded-lg"
+                        @change="updateAvailableCategories"
+                    >
                         <option value="" disabled>Select a sport</option>
-                        <option v-for="sport in availableSports" :key="sport.id" :value="sport.id">
+                        <option 
+                        v-for="sport in availableSports" 
+                        :key="sport.id" 
+                        :value="sport.id"
+                        :disabled="isDisabled(sport.id)"
+                        >
                         {{ sport.name }}
                         </option>
                     </select>
                     <span v-if="form1.errors.sport_id" class="text-red-500">{{ form1.errors.sport_id }}</span>
                     </div>
-        
-                    <!-- Select Category -->
-                    <div class="mb-4">
-                    <label for="category" class="block text-sm font-medium">Select Category</label>
-                    <select v-model="form1.categories" id="category" class="w-full border px-3 py-2 rounded-lg">
-                        <option value="" disabled>Select a category</option>
-                        <option value="Men">Men</option>
-                        <option value="Women">Women</option>
-                        <option value="Mixed">Mixed</option>
-                    </select>
-                    <span v-if="form1.errors.categories" class="text-red-500">{{ form1.errors.categories }}</span>
-                    </div>
-        
+
                     <!-- Select Setup -->
                     <div class="mb-4">
                     <label for="setup" class="block text-sm font-medium">Select Setup</label>
-                    <select v-model="form1.setup" id="setup" class="w-full border px-3 py-2 rounded-lg">
+                    <select 
+                        v-model="form1.setup" 
+                        id="setup" 
+                        class="w-full border px-3 py-2 rounded-lg"
+                        @change="updateCategoryForFreeForAll"
+                    >
                         <option value="" disabled>Select a setup</option>
                         <option value="Double Elimination">Double Elimination</option>
                         <option value="Single Elimination">Single Elimination</option>
@@ -428,7 +398,27 @@
                     </select>
                     <span v-if="form1.errors.setup" class="text-red-500">{{ form1.errors.setup }}</span>
                     </div>
-        
+
+                    <!-- Select Category -->
+                    <div class="mb-4">
+                    <label for="category" class="block text-sm font-medium">Select Category</label>
+                    <select 
+                        v-model="form1.categories" 
+                        id="category" 
+                        class="w-full border px-3 py-2 rounded-lg"
+                    >
+                        <option value="" disabled>Select a category</option>
+                        <option 
+                        v-for="category in availableCategories" 
+                        :key="category" 
+                        :value="category"
+                        >
+                        {{ category }}
+                        </option>
+                    </select>
+                    <span v-if="form1.errors.categories" class="text-red-500">{{ form1.errors.categories }}</span>
+                    </div>
+
                     <!-- Modal Buttons -->
                     <div class="flex justify-end">
                     <button type="button" @click="closeSportsModal" class="mr-2 px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg">Cancel</button>
@@ -438,14 +428,14 @@
                         class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition relative"
                     >
                         <span v-if="!form1.processing">
-                            Confirm
+                        Confirm
                         </span>
                         <span v-else>
-                            <svg class="animate-spin h-4 w-4 mr-3 border-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.969 7.969 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing...
+                        <svg class="animate-spin h-4 w-4 mr-3 border-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.969 7.969 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
                         </span>
                     </button>  
                     </div>
@@ -554,13 +544,10 @@
 </template>
 
 <script setup>
-    import { Head, useForm } from '@inertiajs/vue3';
-    import { ref, computed } from 'vue';
+    import { Head, Link, useForm, router } from '@inertiajs/vue3';
+    import { ref, computed, onMounted, watch } from 'vue';
     import AppLayout from '@/Layout/DashboardLayout.vue';
     import { route } from 'ziggy-js';
-
-    // Active tab state
-    const activeTab = ref('details');  // Default to "Details" tab
 
     const props = defineProps({
         colleges: Array,
@@ -568,13 +555,50 @@
         palakasans: Array,      // Palakasans data array
         assignedTeams: Array,   // Teams data array
         assignedSports: Array,  
-        latestPalakasan: Object // Sports data array
+        latestPalakasan: Object, // Sports data array
+        initialActiveTab: {
+            type: String,
+            default: 'details'
+        }
     });
 
     const isPalakasanModalOpen = ref(false);
     const isSportsModalOpen = ref(false);
     const isTeamsModalOpen = ref(false);
     const isStatusModalOpen = ref(false);
+
+    //this is for viewing the sport
+    const viewSport = (sportId) => {
+        router.get(route('sportview.index', { sport: sportId }));
+    };
+
+    //tabs funtcions
+    const activeTab = ref(props.initialActiveTab);
+
+    const setActiveTab = (tab) => {
+    activeTab.value = tab;
+    updateQueryString(tab);
+    };
+
+    const updateQueryString = (tab) => {
+    const url = new URL(window.location);
+    url.searchParams.set('tab', tab);
+    window.history.pushState({}, '', url);
+    };
+
+    onMounted(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabFromQuery = urlParams.get('tab');
+    if (tabFromQuery && ['details', 'teams', 'sports'].includes(tabFromQuery)) {
+        activeTab.value = tabFromQuery;
+    }
+    });
+
+    watch(() => route().params.tab, (newTab) => {
+    if (newTab && ['details', 'teams', 'sports'].includes(newTab)) {
+        activeTab.value = newTab;
+    }
+    });
 
 
     // Initialize palakasan useForm with default values
@@ -648,6 +672,24 @@
                 console.error('Form submission error');
             },
         });
+    };
+
+    
+    const availableCategories = ref(['Men', 'Women', 'Mixed']);
+
+    const isDisabled = (sportId) => {
+    return props.assignedSports.some(assignedSport => 
+        assignedSport.sport_id === sportId && 
+        assignedSport.categories === form1.categories
+    );
+    };
+
+    const updateAvailableCategories = () => {
+    const selectedSport = props.assignedSports.filter(sport => sport.sport_id === form1.sport_id);
+    availableCategories.value = ['Men', 'Women', 'Mixed'].filter(category => 
+        !selectedSport.some(sport => sport.categories === category)
+    );
+    form1.categories = ''; // Reset the category when sport changes
     };
     //---------------------------------------------
     // Open Teams modal
@@ -755,6 +797,8 @@
         // Default sort order (as per the original assignedSports array)
         return filteredSports;
     });
+
+    
 
 </script>
 

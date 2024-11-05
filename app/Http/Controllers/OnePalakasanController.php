@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\AssignedSports;
 use App\Models\AssignedTeams;
 use App\Models\College;
+use App\Models\MatchResult;
 use App\Models\Palakasan;
 use App\Models\Sport;
+use App\Models\SportMatch; // Include SportMatch model
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -59,7 +61,7 @@ class OnePalakasanController extends Controller
             'status' => 'required|boolean',
         ]);
         
-                // Create a new Palakasan record
+        // Create a new Palakasan record
         Palakasan::create([
             'year' => date('Y'), // Set the year to the current year
             'theme' => $validated['theme'],
@@ -70,31 +72,39 @@ class OnePalakasanController extends Controller
             'status' => $validated['status'],
         ]);
         
-                // Redirect or return a response
+        // Redirect or return a response
         return redirect('/details')->with('success', 'Palakasan created successfully.');
-           
     }
 
     public function store_sports(Request $request)
     {
         // Validate the request
         $validated = $request->validate([
-            'palakasan_sport_id' => 'required|exists:palakasans,id', // Added palakasan_sport_id validation
+            'palakasan_sport_id' => 'required|exists:palakasans,id',
             'sport_id' => 'required|exists:sports,id',
             'categories' => 'required|string|in:Men,Women,Mixed',
             'setup' => 'required|string|in:Double Elimination,Single Elimination,Free for All',
         ]);
     
         // Store the validated data in the database
-        AssignedSports::create([
-            'palakasan_sport_id' => $validated['palakasan_sport_id'], // Ensure this matches the form field name
+        $assignedSport = AssignedSports::create([
+            'palakasan_sport_id' => $validated['palakasan_sport_id'],
             'sport_id' => $validated['sport_id'],
             'categories' => $validated['categories'],
             'setup' => $validated['setup'],
         ]);
-    
-        return redirect()->back()->with('success', 'Team assigned to the sport successfully.');
+        
+        // Fetch the teams assigned to this Palakasan
+        $assignedTeams = AssignedTeams::where('palakasan_id', $validated['palakasan_sport_id'])->get();
+
+        // Check if there are at least two teams
+        if ($assignedTeams->count() < 4) {
+            return redirect()->back()->with('error', 'Not enough teams to create matchups.');
+        }
+        return redirect()->back()->with('success', 'Sport created and teams matched successfully.');
     }
+
+
 
     public function store_teams(Request $request)
     {
@@ -113,10 +123,10 @@ class OnePalakasanController extends Controller
         AssignedTeams::create($validated);
 
         // Return a success response or redirect
-        return redirect('/palakasan/team')->with('success', 'Team created successfully!');
+        return redirect()->back()->with('success', 'Sport created and teams matched successfully.');
     }
 
-    //status
+    // Update status
     public function updateStatus(Request $request, $id)
     {
         $request->validate([

@@ -78,21 +78,26 @@
                         <thead>
                             <tr class=" text-blue-700">                                    
                                 <th class="py-2 px-4 text-left border-b rounded-t-lg">ID</th>
-                                <th class="py-2 px-4 text-left border-b ">Name</th>
-                                <th class="py-2 px-4 text-left border-b">Email</th>
-                                <th class="py-2 px-4 text-left border-b  ">Contact Number</th>                                    
+                                <th class="py-2 px-4 text-left border-b">Name</th>
+                                <th class="py-2 px-4 text-left border-b">Student ID</th>
+                                <th class="py-2 px-4 text-left border-b">University Email</th>    
+                                <th class="py-2 px-4 text-left border-b">College</th>   
+                                <th class="py-2 px-4 text-left border-b">Contact</th>                                    
                                 <th class="py-2 px-4 text-left border-b  rounded-t-lg">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-if="paginatedStudents.length === 0">
-                                <td colspan="5" class="py-4 px-4 text-center text-gray-600">No student found.</td>
+                                <td colspan="7" class="py-4 px-4 text-center text-gray-600">No student found.</td>
                             </tr>
                             <tr v-else v-for="student in paginatedStudents" :key="student.id" class="bg-white hover:bg-gray-50">
                                 <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.id }}</td>
-                                <td class="py-2 px-4 text-sm text-gray-800  font-semibold border-b">{{ student.fullname }}</td>
-                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.email }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-800  font-semibold border-b">{{student.first_name}} {{ student.last_name }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.id_number }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.univ_email }}</td>
+                                <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.college }}</td>
                                 <td class="py-2 px-4 text-sm text-gray-600 border-b">{{ student.contact }}</td>
+
                                 <td class="py-2 px-4 text-sm text-gray-600 border-b">
                                     <Menu as="div" class="relative inline-block text-left">
                                         <MenuButton class="tooltip-btn inline-flex items-center justify-center w-full rounded-lg px-2.5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50" data-tooltip="Sort">

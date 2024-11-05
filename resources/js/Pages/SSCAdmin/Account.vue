@@ -160,7 +160,7 @@
                             class="py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors "
                             :class="{ 'bg-gray-200 hover:bg-gray-200': student.id === selectedStudentId }"
                         >
-                            {{ student.fullname }}
+                            {{ student.first_name }}
                         </li>
                     </ul>
 
@@ -214,7 +214,7 @@ const selectedStudentName = ref('');
 const filteredStudents = computed(() => {
     const query = studentSearchQuery.value.toLowerCase();
     return availableStudents.value.filter(student =>
-        student.fullname.toLowerCase().includes(query)
+        student.first_name.toLowerCase().includes(query)
     );
 });
 
@@ -241,7 +241,7 @@ const closeStudentModal = () => {
 // Function to select a student for preview before confirmation
 const selectStudentForPreview = (student) => {
     selectedStudentId.value = student.id;
-    selectedStudentName.value = student.fullname;  // Update the name here as well
+    selectedStudentName.value = student.first_name;  // Update the name here as well
 };
 
 
@@ -250,7 +250,7 @@ const confirmStudentSelection = () => {
     const selectedStudent = availableStudents.value.find(student => student.id === selectedStudentId.value);
     if (selectedStudent) {
         form.student_id = selectedStudent.id;
-        selectedStudentName.value = selectedStudent.fullname;
+        selectedStudentName.value = selectedStudent.first_name;
     }
     closeStudentModal();
 };

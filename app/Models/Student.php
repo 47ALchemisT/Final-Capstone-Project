@@ -12,12 +12,20 @@ class Student extends Model
     protected $table = 'students';
 
     protected $fillable = [
-        'fullname',
-        'email',
+        'first_name',
+        'last_name',
+        'id_number',
+        'univ_email',
+        'college',
         'contact',
     ];
     public function studentAccount()
     {
         return $this->hasOne(StudentAccount::class, 'student_id'); 
+    }
+
+    public function studentID()
+    {
+        return $this->hasOne(StudentPlayer::class, 'student_player_id'); 
     }
 }

@@ -28,4 +28,18 @@ class AssignedSports extends Model
         return $this->belongsTo(Palakasan::class, 'palakasan_sport_id');
     }
 
+    public function sportMatches()
+    {
+        return $this->hasMany(SportMatch::class, 'assigned_sport_id');
+    }
+
+    public function assignedSport()
+    {
+        return $this->hasMany(StudentPlayer::class, 'student_assigned_sport_id');
+    }
+
+    public function sportVariations()
+    {
+        return $this->hasMany(SportsVariations::class, 'assigned_sport_id');
+    }
 }
